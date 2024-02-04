@@ -1,26 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     const baseUrl = 'https://files.slack.com';
-    const fileUrls = [];
-
     const params = new URLSearchParams(window.location.search);
     params.forEach((value, key) => {
-        if (key.startsWith('file')) {
-            const fullPath = baseUrl + value; // Construct full URL
-            fileUrls.push(fullPath); // Store for sequential redirect
+        if (key.startsWith('file')) { // Assuming parameters are named file1, file2, etc.
+            const fullPath = baseUrl + value; // Prepend base URL to the file path
+            const link = document.createElement('a');
+            link.href = fullPath;
+            link.download = ''; // Optional: You could parse the filename from the URL
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Clean up
         }
     });
-
-    // Function to sequentially redirect to each URL
-    function redirectToFilesSequentially(index) {
-        if (index < fileUrls.length) {
-            window.location.href = fileUrls[index];
-            // Schedule next redirect after a delay to give user time to initiate download
-            setTimeout(() => redirectToFilesSequentially(index + 1), 2000); // 2 seconds delay
-        }
-    }
-
-    // Start redirecting process
-    if (fileUrls.length > 0) {
-        redirectToFilesSequentially(0);
-    }
 });
+
+
