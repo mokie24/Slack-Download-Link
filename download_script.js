@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const baseUrl = 'https://boostagentur.slack.com/files';
+    const baseUrl = 'https://files.slack.com';
     const fileUrls = [];
 
     const params = new URLSearchParams(window.location.search);
