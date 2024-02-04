@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     const baseUrl = 'https://files.slack.com';
     const params = new URLSearchParams(window.location.search);
-    let delay = 0; // Delay in milliseconds
+    const instructions = document.createElement('p');
+    instructions.textContent = 'Click each link below to download the files:';
+    document.body.appendChild(instructions);
+    
     params.forEach((value, key) => {
         if (key.startsWith('file')) {
-            setTimeout(() => {
-                const fullPath = baseUrl + value;
-                const link = document.createElement('a');
-                link.href = fullPath;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }, delay);
-            delay += 2000; // Increase delay for each file
+            const fullPath = baseUrl + value;
+            const link = document.createElement('a');
+            link.href = fullPath;
+            link.textContent = `Download ${value.split('/').pop()}`; // Display filename as link text
+            link.download = '';
+            document.body.appendChild(link);
+            document.body.appendChild(document.createElement('br')); // Add a line break for readability
         }
     });
 });
